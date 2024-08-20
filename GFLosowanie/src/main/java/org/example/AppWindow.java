@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class AppWindow {
     private JRadioButton onePlayerRadioButton;
@@ -21,7 +23,8 @@ public class AppWindow {
     private JButton randomizeCharactersButton;
     private JPanel mainPanel;
 
-    
+    private int playersNumber = 0;
+    ArrayList<String> fotos = new ArrayList<>();
 
     public AppWindow(){
         JFrame frame = new JFrame("RANDOMIZER");
@@ -37,10 +40,34 @@ public class AppWindow {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
+        for (int i=0; i<19; i++)
+        {
+            fotos.add("src/main/resources/char" + i + ".jpeg");
+        }
+
+        Random random = new Random();
+
         randomizeCharactersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
             {
+                if (onePlayerRadioButton.isSelected()) playersNumber=1;
+                    else if (twoPlayersRadioButton.isSelected()) playersNumber=2;
+                        else if (threePlayersRadioButton.isSelected()) playersNumber=3;
+                            else playersNumber=4;
+
+                int startDelay = 50;  // Początkowe opóźnienie w milisekundach
+                int maxDelay = 1500;  // Maksymalne opóźnienie w milisekundach
+
+                for (int i=1; i<=playersNumber; i++)
+                {
+                    //core's dont work in swing, neet to find solution
+                    int randomNumber = random.nextInt(10);
+                    randomNumber = randomNumber * (random.nextInt(2) + 1);
+                    ImageIcon imageIcon = new ImageIcon(fotos.get(randomNumber));
+                    JLabel1.setIcon(imageIcon);
+
+                }
 
             }
         });
