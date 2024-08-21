@@ -40,7 +40,7 @@ public class AppWindow {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        for (int i=0; i<19; i++)
+        for (int i=0; i<=19; i++)
         {
             fotos.add("src/main/resources/char" + i + ".jpeg");
         }
@@ -56,18 +56,30 @@ public class AppWindow {
                         else if (threePlayersRadioButton.isSelected()) playersNumber=3;
                             else playersNumber=4;
 
-                int startDelay = 50;  // Początkowe opóźnienie w milisekundach
-                int maxDelay = 1500;  // Maksymalne opóźnienie w milisekundach
-
                 for (int i=1; i<=playersNumber; i++)
                 {
-                    //core's dont work in swing, neet to find solution
+                    //core's dont work in swing, need to find solution
                     int randomNumber = random.nextInt(10);
-                    randomNumber = randomNumber * (random.nextInt(2) + 1);
+                    if (random.nextInt(2)==0) randomNumber+=10;
+                    System.out.println(randomNumber);
                     ImageIcon imageIcon = new ImageIcon(fotos.get(randomNumber));
                     JLabel1.setIcon(imageIcon);
 
+                    Timer timer = new Timer(1000, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            // Kod, który zostanie wykonany po 1 sekundzie
+                            System.out.println("Minęła 1 sekunda!");
+                        }
+                    });
+
+                    // Ustawiamy, że timer ma wykonać akcję tylko raz
+                    timer.setRepeats(false);
+
+                    // Uruchamiamy timer
+                    timer.start();
                 }
+
 
             }
         });
