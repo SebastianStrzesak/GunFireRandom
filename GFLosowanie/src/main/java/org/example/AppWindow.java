@@ -1,7 +1,6 @@
 package org.example;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class AppWindow {
     private int playersNumber = 0;
     ArrayList<String> fotos = new ArrayList<>();
 
-    public AppWindow(){
+    public AppWindow() {
         JFrame frame = new JFrame("RANDOMIZER");
         frame.setContentPane(mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,8 +39,7 @@ public class AppWindow {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        for (int i=0; i<=19; i++)
-        {
+        for (int i = 0; i <= 19; i++) {
             fotos.add("src/main/resources/char" + i + ".jpeg");
         }
 
@@ -49,38 +47,40 @@ public class AppWindow {
 
         randomizeCharactersButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                if (onePlayerRadioButton.isSelected()) playersNumber=1;
-                    else if (twoPlayersRadioButton.isSelected()) playersNumber=2;
-                        else if (threePlayersRadioButton.isSelected()) playersNumber=3;
-                            else playersNumber=4;
+            public void actionPerformed(ActionEvent e) {
+                if (onePlayerRadioButton.isSelected()) playersNumber = 1;
+                else if (twoPlayersRadioButton.isSelected()) playersNumber = 2;
+                else if (threePlayersRadioButton.isSelected()) playersNumber = 3;
+                else playersNumber = 4;
 
-                for (int i=1; i<=playersNumber; i++)
-                {
-                    //core's dont work in swing, need to find solution
-                    int randomNumber = random.nextInt(10);
-                    if (random.nextInt(2)==0) randomNumber+=10;
-                    System.out.println(randomNumber);
-                    ImageIcon imageIcon = new ImageIcon(fotos.get(randomNumber));
-                    JLabel1.setIcon(imageIcon);
+                for (int i = 1; i <= playersNumber; i++) {
 
-                    Timer timer = new Timer(1000, new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            // Kod, który zostanie wykonany po 1 sekundzie
-                            System.out.println("Minęła 1 sekunda!");
-                        }
-                    });
 
-                    // Ustawiamy, że timer ma wykonać akcję tylko raz
-                    timer.setRepeats(false);
+                    ArrayList<Integer> delays = new ArrayList<>();
+                    for (int j = 50; j <= 3000; j *= 1.1) {
+                        delays.add(j);
+                    }
 
-                    // Uruchamiamy timer
-                    timer.start();
+                    for (int delay : delays) {
+                        int finalI = i;
+                        Timer timer = new Timer(delay, new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                int randomNumber = random.nextInt(10);
+                                if (random.nextInt(2) == 0) randomNumber += 10;
+                                ImageIcon imageIcon = new ImageIcon(fotos.get(randomNumber));
+
+                                if (finalI ==1) JLabel1.setIcon(imageIcon);
+                                    else if (finalI ==2) JLabel2.setIcon(imageIcon);
+                                        else if (finalI ==3) JLabel3.setIcon(imageIcon);
+                                            else JLabel4.setIcon(imageIcon);
+                            }
+                        });
+
+                        timer.setRepeats(false);
+                        timer.start();
+                    }
                 }
-
-
             }
         });
     }
